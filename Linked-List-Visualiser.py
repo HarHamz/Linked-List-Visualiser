@@ -4,13 +4,13 @@ from tkinter import simpledialog
 
 class Node:
     def __init__(self, data):
-        # mendefinisikan single linked list
+        # define the singly linked list
         self.data = data
         self.next = None
 
 class Linked_List:
     def __init__(self):
-        # membuat variabel first
+        # create the first variable (head)
         self.first = None
 
     # insert first
@@ -19,22 +19,23 @@ class Linked_List:
         new_node.next = self.first
         self.first = new_node
 
-    # insert setelah indeks
+    # insert after an index
     def insert_index(self, data, index):
         if index < 0:
-            tk.messagebox.showerror("Error","Indeks tidak boleh negatif")
+            tk.messagebox.showerror("Error","Index can't be a negative number")
             return
 
-        new_node = Node(data)
+        #new_node = Node(data)
         if index == 0:
             self.insert_first(data)
         else:
+            new_node = Node(data) #Bug Fix from Ferdinand: node was wasted when index is 0, moved here
             current_node = self._get_node_at_index(index - 1)
             if current_node:
                 new_node.next = current_node.next
                 current_node.next = new_node
             else:
-                tk.messagebox.showerror("Error","Indeks tidak ditemukan")
+                tk.messagebox.showerror("Error","Index can't be found")
 
     # insert last
     def insert_end(self, data):
@@ -47,33 +48,33 @@ class Linked_List:
                 current_node = current_node.next
             current_node.next = new_node
 
-    # update pada indeks
+    # update index (Bug Fix from Ferdinand: in the original, index AFTER were actually changed [index-1])
     def update_index(self, index, value):
         if index < 0:
-            tk.messagebox.showerror("Error","Indeks tidak boleh negatif")
+            tk.messagebox.showerror("Error","Index can't be a negative number")
             return
 
-        current_node = self._get_node_at_index(index - 1)
+        current_node = self._get_node_at_index(index)
         if current_node:
             current_node.data = value
         else:
-            tk.messagebox.showerror("Error","Indeks tidak ditemukan")
+            tk.messagebox.showerror("Error","Index can't be found")
 
     # delete first
     def delete_first(self):
         if self.first:
             self.first = self.first.next
         else:
-            tk.messagebox.showerror("Error","List kosong")
+            tk.messagebox.showerror("Error","List is empty")
 
-    # delete pada indeks
+    # delete a specific index
     def delete_index(self, index):
         if index < 0:
-            tk.messagebox.showerror("Error","Indeks tidak boleh negatif")
+            tk.messagebox.showerror("Error","Index can't be a negative number")
             return
 
         if self.first is None:
-            tk.messagebox.showerror("Error","List kosong")
+            tk.messagebox.showerror("Error","List is empty")
             return
 
         if index == 0:
@@ -83,12 +84,12 @@ class Linked_List:
             if current_node and current_node.next:
                 current_node.next = current_node.next.next
             else:
-                tk.messagebox.showerror("Error","Indeks tidak ditemukan")
+                tk.messagebox.showerror("Error","Index can't be found")
 
-    #delete last
+    # delete last
     def delete_last(self):
         if self.first is None:
-            tk.messagebox.showerror("Error","List kosong")
+            tk.messagebox.showerror("Error","List is empty")
             return
 
         if self.first.next is None:
@@ -101,7 +102,7 @@ class Linked_List:
 
         current_node.next = None
 
-    # dapatkan indeks
+    # get the node at the specified index
     def _get_node_at_index(self, index):
         if index < 0:
             return None
@@ -115,7 +116,7 @@ class Linked_List:
 
         return current_node
     
-    # conjugate list kedua ke list pertama
+    # concatenate a list at the end of the original list
     def conjugate_list(self, other_list):
         if self.first is None:
             tk.messagebox.showerror("Error","List 1 kosong")
@@ -128,11 +129,11 @@ class Linked_List:
                 last_node_list1.next = other_list.first
                 other_list.first = None
 
-# visualisasi
+# visualisation
 class LinkedListVisualizer:
     def __init__(self, master):
         self.master = master
-        self.master.title("Visualisasi Linked List")
+        self.master.title("Linked List Visualisation")
 
 
         self.linked_list1 = Linked_List()
@@ -147,49 +148,49 @@ class LinkedListVisualizer:
         frame2 = tk.Frame(master)
         frame2.pack(side=tk.TOP)
 
-        self.insert_first_button1 = tk.Button(frame1, text="Insert Indeks Pertama (List 1)", command=self.insert_first1)
+        self.insert_first_button1 = tk.Button(frame1, text="Insert the First Index (List 1)", command=self.insert_first1)
         self.insert_first_button1.pack(side=tk.LEFT)
 
-        self.insert_end_button1 = tk.Button(frame1, text="Insert Indeks Terakhir (List 1)", command=self.insert_end1)
+        self.insert_end_button1 = tk.Button(frame1, text="Insert the Last Index (List 1)", command=self.insert_end1)
         self.insert_end_button1.pack(side=tk.LEFT)
 
-        self.insert_index_button1 = tk.Button(frame1, text="Insert Setelah Indeks (List 1)", command=self.insert_index1)
+        self.insert_index_button1 = tk.Button(frame1, text="Insert After an Index (List 1)", command=self.insert_index1)
         self.insert_index_button1.pack(side=tk.LEFT)
 
-        self.update_index_button1 = tk.Button(frame1, text="Update Di Indeks (List 1)", command=self.update_index1)
+        self.update_index_button1 = tk.Button(frame1, text="Update at Index (List 1)", command=self.update_index1)
         self.update_index_button1.pack(side=tk.LEFT)
 
-        self.delete_first_button1 = tk.Button(frame1, text="Hapus Indeks Pertama (List 1)", command=self.delete_first1)
+        self.delete_first_button1 = tk.Button(frame1, text="Delete the First Index (List 1)", command=self.delete_first1)
         self.delete_first_button1.pack(side=tk.LEFT)
 
-        self.delete_index_button1 = tk.Button(frame1, text="Hapus Pada Indeks (List 1)", command=self.delete_index1)
+        self.delete_index_button1 = tk.Button(frame1, text="Delete at an Index (List 1)", command=self.delete_index1)
         self.delete_index_button1.pack(side=tk.LEFT)
 
-        self.delete_last_button1 = tk.Button(frame1, text="Hapus Indeks Terakhir (List 1)", command=self.delete_last1)
+        self.delete_last_button1 = tk.Button(frame1, text="Delete the Last Index (List 1)", command=self.delete_last1)
         self.delete_last_button1.pack(side=tk.LEFT)
 
-        self.insert_first_button2 = tk.Button(frame2, text="Insert Indeks Pertama (List 2)", command=self.insert_first2)
+        self.insert_first_button2 = tk.Button(frame2, text="Insert the First Index (List 2)", command=self.insert_first2)
         self.insert_first_button2.pack(side=tk.LEFT)
 
-        self.insert_end_button2 = tk.Button(frame2, text="Insert Indeks Terakhir (List 2)", command=self.insert_end2)
+        self.insert_end_button2 = tk.Button(frame2, text="Insert the Last Index (List 2)", command=self.insert_end2)
         self.insert_end_button2.pack(side=tk.LEFT)
 
-        self.insert_index_button2 = tk.Button(frame2, text="Insert Setelah Indeks (List 2)", command=self.insert_index2)
+        self.insert_index_button2 = tk.Button(frame2, text="Insert After an Index (List 2)", command=self.insert_index2)
         self.insert_index_button2.pack(side=tk.LEFT)
 
-        self.update_index_button2 = tk.Button(frame2, text="Update Di Indeks (List 2)", command=self.update_index2)
+        self.update_index_button2 = tk.Button(frame2, text="Update at Index (List 2)", command=self.update_index2)
         self.update_index_button2.pack(side=tk.LEFT)
 
-        self.delete_first_button2 = tk.Button(frame2, text="Hapus Elemen Pertama (List 2)", command=self.delete_first2)
+        self.delete_first_button2 = tk.Button(frame2, text="Delete the First Index (List 2)", command=self.delete_first2)
         self.delete_first_button2.pack(side=tk.LEFT)
 
-        self.delete_index_button2 = tk.Button(frame2, text="Hapus Pada Indeks (List 2)", command=self.delete_index2)
+        self.delete_index_button2 = tk.Button(frame2, text="Delete at an Index (List 2)", command=self.delete_index2)
         self.delete_index_button2.pack(side=tk.LEFT)
 
-        self.delete_last_button2 = tk.Button(frame2, text="Hapus Indeks Terakhir (List 2)", command=self.delete_last2)
+        self.delete_last_button2 = tk.Button(frame2, text="Delete the Last Index (List 2)", command=self.delete_last2)
         self.delete_last_button2.pack(side=tk.LEFT)
 
-        self.concatenate_button = tk.Button(frame2, text="Gabung List", command=self.conjugate_lists)
+        self.concatenate_button = tk.Button(frame2, text="Concatenate List", command=self.conjugate_lists)
         self.concatenate_button.pack(side=tk.LEFT)
 
         self.draw_linked_lists()
@@ -244,27 +245,27 @@ class LinkedListVisualizer:
         self.draw_linked_list(self.linked_list2, y_offset)
 
     def insert_first1(self):
-        data = simpledialog.askinteger("Insert Indeks Pertama (List 1)", "Masukkan data:")
+        data = simpledialog.askinteger("Insert the First Index (List 1)", "Insert data:")
         if data is not None:
             self.linked_list1.insert_first(data)
             self.draw_linked_lists()
 
     def insert_end1(self):
-        data = simpledialog.askinteger("Insert Indeks Terakhir (List 1)", "Masukkan data:")
+        data = simpledialog.askinteger("Insert the Last Index (List 1)", "Insert data:")
         if data is not None:
             self.linked_list1.insert_end(data)
             self.draw_linked_lists()
 
     def insert_index1(self):
-        index = simpledialog.askinteger("Insert at Index (List 1)", "Masukkan indeks:")
-        data = simpledialog.askinteger("Insert at Index (List 1)", "Masukkan data:")
+        index = simpledialog.askinteger("Insert at an Index (List 1)", "Insert index:")
+        data = simpledialog.askinteger("Insert at an Index (List 1)", "Insert data:")
         if index is not None and data is not None:
             self.linked_list1.insert_index(data, index)
             self.draw_linked_lists()
 
     def update_index1(self):
-        index = simpledialog.askinteger("Update Di Indeks (List 1)", "Masukkan indeks:")
-        data = simpledialog.askinteger("Update Di Indeks (List 1)", "Masukkan data:")
+        index = simpledialog.askinteger("Update at Index (List 1)", "Insert index:")
+        data = simpledialog.askinteger("Update at Index (List 1)", "Insert data:")
         if index is not None and data is not None:
             self.linked_list1.update_index(index, data)
             self.draw_linked_lists()
@@ -274,7 +275,7 @@ class LinkedListVisualizer:
         self.draw_linked_lists()
 
     def delete_index1(self):
-        index = simpledialog.askinteger("Hapus Pada Indeks (List 1)", "Masukkan indeks:")
+        index = simpledialog.askinteger("Delete at an Index (List 1)", "Insert index:")
         if index is not None:
             self.linked_list1.delete_index(index)
             self.draw_linked_lists()
@@ -284,27 +285,27 @@ class LinkedListVisualizer:
         self.draw_linked_lists()
 
     def insert_first2(self):
-        data = simpledialog.askinteger("Insert Indeks Pertama (List 2)", "Masukkan data:")
+        data = simpledialog.askinteger("Insert the First Index (List 2)", "Insert data:")
         if data is not None:
             self.linked_list2.insert_first(data)
             self.draw_linked_lists()
 
     def insert_end2(self):
-        data = simpledialog.askinteger("Insert Indeks Terakhir (List 2)", "Masukkan data:")
+        data = simpledialog.askinteger("Insert the Last Index (List 2)", "Insert data:")
         if data is not None:
             self.linked_list2.insert_end(data)
             self.draw_linked_lists()
 
     def insert_index2(self):
-        index = simpledialog.askinteger("Insert at Index (List 2)", "Masukkan indeks:")
-        data = simpledialog.askinteger("Insert at Index (List 2)", "Masukkan data:")
+        index = simpledialog.askinteger("Insert at Index (List 2)", "Insert index:")
+        data = simpledialog.askinteger("Insert at Index (List 2)", "Insert data:")
         if index is not None and data is not None:
             self.linked_list2.insert_index(data, index)
             self.draw_linked_lists()
 
     def update_index2(self):
-        index = simpledialog.askinteger("Update Di Indeks (List 2)", "Masukkan indeks:")
-        data = simpledialog.askinteger("Update Di Indeks (List 2)", "Masukkan data:")
+        index = simpledialog.askinteger("Update at Index (List 2)", "Insert index:")
+        data = simpledialog.askinteger("Update at Index (List 2)", "Insert data:")
         if index is not None and data is not None:
             self.linked_list2.update_index(index, data)
             self.draw_linked_lists()
@@ -314,7 +315,7 @@ class LinkedListVisualizer:
         self.draw_linked_lists()
 
     def delete_index2(self):
-        index = simpledialog.askinteger("Hapus Pada Indeks (List 2)", "Masukkan indeks:")
+        index = simpledialog.askinteger("Delete at an Index (List 2)", "Insert index:")
         if index is not None:
             self.linked_list2.delete_index(index)
             self.draw_linked_lists()
